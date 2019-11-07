@@ -1,7 +1,7 @@
 # lxmlx-js
 
 [![Build Status](https://travis-ci.org/innodatalabs/lxmlx-js.svg?branch=master)](https://travis-ci.org/innodatalabs/lxmlx-js)
-[![NPM package version](https://badge.fury.io/npm/lxmlx-js.svg)](https://badge.fury.io/npm/lxmlx-js)
+[![NPM package version](https://badge.fury.io/js/lxmlx-js.svg)](https://badge.fury.io/js/lxmlx-js)
 
 XML representations as a JSON stream. Convenient for content-oriented XML tasks.
 
