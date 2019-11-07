@@ -195,3 +195,7 @@ export function* withPeer(events) {
         }
     }
 }
+
+export function textOf(events) {
+    return [...events].filter(x => x.type===TEXT).map(x => x.text).join('');
+}

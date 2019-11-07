@@ -4,9 +4,8 @@ import {
     scan,
     unscan,
     withPeer,
+    textOf,
 } from './lxmlx.js';
-
-const sum = (x, y) => x + y;
 
 test('fromString/toString', () => {
     const xml = fromString('<a>Hello</a>');
@@ -133,4 +132,12 @@ test('withPeer', () => {
         [{type: 'text', text: ' world!'}, undefined],
         [{type: 'exit'}, {type: 'enter', tag: 'a', attrib: {}}],
     ])
+});
+
+
+test('textOf', () => {
+    const xml = fromString('<a>Hello<!-- This is a comment -->, world</a>');
+    const text = textOf(scan(xml));
+
+    expect(text).toBe('Hello, world');
 });
