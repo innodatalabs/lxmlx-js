@@ -202,6 +202,10 @@
         }
     }
 
+    function textOf(events) {
+        return [...events].filter(x => x.type===TEXT).map(x => x.text).join('');
+    }
+
     exports.COMMENT = COMMENT;
     exports.ENTER = ENTER;
     exports.EXIT = EXIT;
@@ -209,6 +213,7 @@
     exports.TEXT = TEXT;
     exports.fromString = fromString;
     exports.scan = scan;
+    exports.textOf = textOf;
     exports.toString = toString;
     exports.unscan = unscan;
     exports.withPeer = withPeer;
