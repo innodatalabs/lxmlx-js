@@ -1,3 +1,4 @@
+import test from "ava";
 import {
     fromString,
     toString,
@@ -7,48 +8,49 @@ import {
     textOf,
 } from './lxmlx.js';
 
-test('fromString/toString', () => {
+
+test('fromString/toString', t => {
     const xml = fromString('<a>Hello</a>');
-    const xmltext = toString(xml)
-    expect(xmltext).toBe('<a>Hello</a>');
+    const xmltext = toString(xml);
+    t.is(xmltext, '<a>Hello</a>');
 });
 
-test('fromString/toString (with namespace)', () => {
+test('fromString/toString (with namespace)', t => {
     const xml = fromString('<ns:a xmlns:ns="huh">Hello</ns:a>');
-    const xmltext = toString(xml)
-    expect(xmltext).toBe('<ns:a xmlns:ns="huh">Hello</ns:a>');
+    const xmltext = toString(xml);
+    t.is(xmltext, '<ns:a xmlns:ns="huh">Hello</ns:a>');
 });
 
-test('fromString/toString (with XML declaration)', () => {
+test('fromString/toString (with XML declaration)', t => {
     const xml = fromString('<a>Hello</a>');
-    const xmltext = toString(xml, {xmlDeclaration: true})
-    expect(xmltext).toBe("<?xml version='1.0' encoding='utf-8'?>\n<a>Hello</a>");
+    const xmltext = toString(xml, {xmlDeclaration: true});
+    t.is(xmltext, "<?xml version='1.0' encoding='utf-8'?>\n<a>Hello</a>");
 });
 
-test('scan', () => {
+test('scan', t => {
     const xml = fromString('<a>Hello</a>');
     const events = [...scan(xml)];
-    expect(events).toStrictEqual([
+    t.deepEqual(events, [
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
         {type: 'exit'},
     ]);
 });
 
-test('scan (with namespace)', () => {
+test('scan (with namespace)', t => {
     const xml = fromString('<ns:a xmlns:ns="huh">Hello</ns:a>');
     const events = [...scan(xml)];
-    expect(events).toStrictEqual([
+    t.deepEqual(events, [
         {type: 'enter', tag: '{huh}a', attrib: {}},
         {type: 'text', text: 'Hello'},
         {type: 'exit'},
     ]);
 });
 
-test('scan (PI)', () => {
+test('scan (PI)', t => {
     const xml = fromString('<a>Hello<?pi ?>, world</a>');
     const events = [...scan(xml)];
-    expect(events).toStrictEqual([
+    t.deepEqual(events, [
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
         {type: 'pi', text: '', 'target': 'pi'},
@@ -57,10 +59,10 @@ test('scan (PI)', () => {
     ]);
 });
 
-test('scan (comment)', () => {
+test('scan (comment)', t => {
     const xml = fromString('<a>Hello<!-- This is a comment -->, world</a>');
     const events = [...scan(xml)];
-    expect(events).toStrictEqual([
+    t.deepEqual(events, [
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
         {type: 'comment', text: ' This is a comment '},
@@ -69,17 +71,17 @@ test('scan (comment)', () => {
     ]);
 });
 
-test('unscan', () => {
+test('unscan', t => {
     const xml = unscan([
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
         {type: 'exit'},
     ]);
-    const xmltext = toString(xml)
-    expect(xmltext).toBe('<a>Hello</a>');
+    const xmltext = toString(xml);
+    t.is(xmltext, '<a>Hello</a>');
 });
 
-test('unscan (with namespace)', () => {
+test('unscan (with namespace)', t => {
     const xml = unscan([
         {type: 'enter', tag: '{boo}a', attrib: {}},
         {type: 'text', text: 'Hello'},
@@ -89,11 +91,11 @@ test('unscan (with namespace)', () => {
             "ns": "boo"
         }
     });
-    const xmltext = toString(xml)
-    expect(xmltext).toBe('<ns:a xmlns:ns="boo">Hello</ns:a>');
+    const xmltext = toString(xml);
+    t.is(xmltext, '<ns:a xmlns:ns="boo">Hello</ns:a>');
 });
 
-test('unscan (PI)', () => {
+test('unscan (PI)', t => {
     const xml = unscan([
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
@@ -101,11 +103,11 @@ test('unscan (PI)', () => {
         {type: 'text', text: ' world!'},
         {type: 'exit'},
     ]);
-    const xmltext = toString(xml)
-    expect(xmltext).toBe('<a>Hello<?pi content?> world!</a>');
+    const xmltext = toString(xml);
+    t.is(xmltext, '<a>Hello<?pi content?> world!</a>');
 });
 
-test('unscan (comment)', () => {
+test('unscan (comment)', t => {
     const xml = unscan([
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
@@ -113,11 +115,11 @@ test('unscan (comment)', () => {
         {type: 'text', text: ' world!'},
         {type: 'exit'},
     ]);
-    const xmltext = toString(xml)
-    expect(xmltext).toBe('<a>Hello<!--content--> world!</a>');
+    const xmltext = toString(xml);
+    t.is(xmltext, '<a>Hello<!--content--> world!</a>');
 });
 
-test('withPeer', () => {
+test('withPeer', t => {
     const result = [...withPeer([
         {type: 'enter', tag: 'a', attrib: {}},
         {type: 'text', text: 'Hello'},
@@ -125,19 +127,19 @@ test('withPeer', () => {
         {type: 'text', text: ' world!'},
         {type: 'exit'},
     ])];
-    expect(result).toStrictEqual([
+    t.deepEqual(result, [
         [{type: 'enter', tag: 'a', attrib: {}}, undefined],
         [{type: 'text', text: 'Hello'}, undefined],
         [{type: 'comment', text: 'content'}, undefined],
         [{type: 'text', text: ' world!'}, undefined],
         [{type: 'exit'}, {type: 'enter', tag: 'a', attrib: {}}],
-    ])
+    ]);
 });
 
 
-test('textOf', () => {
+test('textOf', t => {
     const xml = fromString('<a>Hello<!-- This is a comment -->, world</a>');
     const text = textOf(scan(xml));
 
-    expect(text).toBe('Hello, world');
+    t.is(text, 'Hello, world');
 });
