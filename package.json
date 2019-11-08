@@ -1,13 +1,10 @@
 {
   "name": "@innodatalabs/lxmlx-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "XML as JSON event stream",
   "author": "Mike Kroutikov",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/innodatalabs/lxmlx-js.git"
-  },
+  "repository": "github:innodatalabs/lxmlx-js",
   "main": "build/lxmlx.js",
   "module": "src/lxmlx.js",
   "devDependencies": {
