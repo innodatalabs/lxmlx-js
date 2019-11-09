@@ -14,6 +14,7 @@ npm i lxmlx-js --save
 
 ### Building and testing:
 ```
+npm i
 make
 ```
 
