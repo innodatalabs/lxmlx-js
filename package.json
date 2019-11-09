@@ -1,17 +1,19 @@
 {
   "name": "@innodatalabs/lxmlx-js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "XML as a JSON event stream",
   "author": "Mike Kroutikov",
   "license": "MIT",
   "repository": "github:innodatalabs/lxmlx-js",
-  "module": "src/lxmlx.js",
+  "main": "index.js",
+  "module": "index",
   "devDependencies": {
     "ava": "^1.4.1",
     "browser-env": "^3.2.6",
     "jshint": "^2.10.3",
     "require-extension-hooks": "^0.3.3",
-    "require-extension-hooks-babel": "^1.0.0-beta.1"
+    "require-extension-hooks-babel": "^1.0.0-beta.1",
+    "rollup": "^1.26.3"
   },
   "ava": {
     "require": [
@@ -19,8 +21,8 @@
     ]
   },
   "scripts": {
-    "build": "rollup -c",
-    "lint": "jshint src/",
-    "test": "ava"
+    "lint": "jshint index.mjs",
+    "test": "ava",
+    "build": "rollup -c"
   }
 }
