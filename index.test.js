@@ -6,7 +6,7 @@ import {
     unscan,
     withPeer,
     textOf,
-} from './lxmlx.js';
+} from './index.mjs';
 
 
 test('fromString/toString', t => {
