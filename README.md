@@ -159,8 +159,8 @@ tasks are better done on event stream representation.
    tree representation this is not a difficult task. But using event stream
    representation this becomes quite trivial: accept only `TEXT` events and
    join the resulting text pieces together:
-   ```
-   ''.join(evt['text'] for evt in events if evt['type']==TEXT)
+   ```js
+   const text = events.filter(e=>r.type===TEXT).join('');
    ```
 
 3. Wrapping XML elements. Daunting task using XML tree representation. Very
